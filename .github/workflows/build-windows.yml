@@ -1,0 +1,33 @@
+name: Build Windows Tetris
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          architecture: x64
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pygame requests pyinstaller==6.22.3
+
+      - name: Build Tetris
+        run: pyinstaller --clean --noconfirm tetris.spec
+
+      - name: Upload Tetris.exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tetris-Windows
+          path: dist/tetris.exe
