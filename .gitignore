@@ -1,0 +1,6 @@
+tetris.db
+__pycache__/
+*.pyc
+build/
+dist/
+.tetris_token.json
